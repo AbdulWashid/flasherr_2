@@ -59,12 +59,12 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
+                            <input type="text" class="form-control" id="profile_name" name="profile_name"
                                 value="{{ auth()->user()->name }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email"
+                            <input type="email" class="form-control" id="profile_email" name="profile_email"
                                 value="{{ auth()->user()->email }}" required>
                         </div>
                         <div class="mb-3">
@@ -108,20 +108,26 @@
     <script src="{{ asset('admin/js/adminlte.js') }}"></script>
     <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
     <script src="{{ asset('admin/js/cropper.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+
     <script>
-        $(function() {
+        $(document).ready(function() {
             'use strict';
 
-            const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-            const Default = {
+            /** -----------------------------
+             * 1️⃣ Sidebar Scrollbar Init
+             * ----------------------------- */
+            var SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+            var Default = {
                 scrollbarTheme: 'os-theme-light',
                 scrollbarAutoHide: 'leave',
                 scrollbarClickScroll: true,
             };
 
-            const $sidebarWrapper = $(SELECTOR_SIDEBAR_WRAPPER);
+            var $sidebarWrapper = $(SELECTOR_SIDEBAR_WRAPPER);
 
-            if ($sidebarWrapper.length && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+            if ($sidebarWrapper.length && typeof OverlayScrollbarsGlobal !== 'undefined' && OverlayScrollbarsGlobal
+                .OverlayScrollbars) {
                 OverlayScrollbarsGlobal.OverlayScrollbars($sidebarWrapper[0], {
                     scrollbars: {
                         theme: Default.scrollbarTheme,
@@ -130,102 +136,98 @@
                     },
                 });
             }
-        });
-    </script>
-    <script>
-        $(function() {
-            'use strict';
 
-            const storedTheme = localStorage.getItem("theme");
+            /** -----------------------------
+             * 2️⃣ Theme Switcher
+             * ----------------------------- */
+            var storedTheme = localStorage.getItem("theme");
 
-            const getPreferredTheme = () => {
-                if (storedTheme) {
-                    return storedTheme;
-                }
+            function getPreferredTheme() {
+                if (storedTheme) return storedTheme;
                 return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-            };
+            }
 
-            const setTheme = (theme) => {
-                const themeToSet = (theme === "auto" && window.matchMedia("(prefers-color-scheme: dark)")
-                        .matches) ?
+            function setTheme(theme) {
+                var themeToSet = (theme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches) ?
                     "dark" :
                     theme;
-                $('html').attr("data-bs-theme", themeToSet);
-            };
+                $("html").attr("data-bs-theme", themeToSet);
+            }
 
-            const showActiveTheme = (theme, focus = false) => {
-                const $themeSwitcher = $("#bd-theme");
-                if (!$themeSwitcher.length) {
-                    return;
-                }
+            function showActiveTheme(theme, focus) {
+                var $themeSwitcher = $("#bd-theme");
+                if (!$themeSwitcher.length) return;
 
-                const $themeSwitcherText = $("#bd-theme-text");
-                const $activeThemeIcon = $(".theme-icon-active i");
-                const $btnToActive = $(`[data-bs-theme-value="${theme}"]`);
-                const svgOfActiveBtn = $btnToActive.find("i").attr("class");
+                var $themeSwitcherText = $("#bd-theme-text");
+                var $activeThemeIcon = $(".theme-icon-active i");
+                var $btnToActive = $('[data-bs-theme-value="' + theme + '"]');
+                var svgOfActiveBtn = $btnToActive.find("i").attr("class");
 
                 $("[data-bs-theme-value]").removeClass("active").attr("aria-pressed", "false");
-
                 $btnToActive.addClass("active").attr("aria-pressed", "true");
                 $activeThemeIcon.attr("class", svgOfActiveBtn);
-                const themeSwitcherLabel =
-                    `${$themeSwitcherText.text()} (${$btnToActive.data("bs-theme-value")})`;
+
+                var themeSwitcherLabel = $themeSwitcherText.text() + " (" + $btnToActive.data("bs-theme-value") +
+                    ")";
                 $themeSwitcher.attr("aria-label", themeSwitcherLabel);
 
                 if (focus) {
-                    $themeSwitcher.trigger('focus');
+                    $themeSwitcher.trigger("focus");
                 }
-            };
+            }
 
             setTheme(getPreferredTheme());
             showActiveTheme(getPreferredTheme());
 
-            $(window).on('change', function(e) {
-                if (e.originalEvent.matches && (storedTheme !== "light" && storedTheme !== "dark")) {
+            // Handle OS color scheme change
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+                if (e.matches && (storedTheme !== "light" && storedTheme !== "dark")) {
                     setTheme(getPreferredTheme());
                 }
             });
 
-            $("[data-bs-theme-value]").on('click', function() {
-                const theme = $(this).data("bs-theme-value");
+            $("[data-bs-theme-value]").on("click", function() {
+                var theme = $(this).data("bs-theme-value");
                 localStorage.setItem("theme", theme);
                 setTheme(theme);
                 showActiveTheme(theme, true);
             });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            let cropper;
 
-            const profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
-            const cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
+            /** -----------------------------
+             * 3️⃣ Profile Image Cropper
+             * ----------------------------- */
+            var cropper;
+            var profileModal = new bootstrap.Modal($('#profileModal')[0]);
+            var cropperModal = new bootstrap.Modal($('#cropperModal')[0]);
 
-            const imageToCrop = document.getElementById('imageToCrop');
-            const imagePreview = document.getElementById('imagePreview');
-            const profileImageInput = document.getElementById('profileImageInput');
+            var $imageToCrop = $('#imageToCrop');
+            var $imagePreview = $('#imagePreview');
+            var $profileImageInput = $('#profileImageInput');
 
-            imagePreview.addEventListener('click', function() {
-                profileImageInput.click();
+            // Open file dialog
+            $imagePreview.on('click', function() {
+                $profileImageInput.trigger('click');
             });
 
-            profileImageInput.addEventListener('change', function(e) {
-                const files = e.target.files;
+            // Handle image file input
+            $profileImageInput.on('change', function(e) {
+                var files = e.target.files;
                 if (files && files.length > 0) {
-                    const reader = new FileReader();
+                    var reader = new FileReader();
                     reader.onload = function(event) {
-                        imageToCrop.src = event.target.result;
+                        $imageToCrop.attr('src', event.target.result);
                         cropperModal.show();
                     };
                     reader.readAsDataURL(files[0]);
                 }
             });
 
-            document.getElementById('cropperModal').addEventListener('shown.bs.modal', function() {
+            // Init Cropper when modal shown
+            $('#cropperModal').on('shown.bs.modal', function() {
                 if (cropper) {
                     cropper.destroy();
                 }
-                cropper = new Cropper(imageToCrop, {
+                cropper = new Cropper($imageToCrop[0], {
                     aspectRatio: 1 / 1,
                     viewMode: 1,
                     autoCropArea: 0.9,
@@ -235,45 +237,44 @@
                 });
             });
 
-            document.getElementById('cropButton').addEventListener('click', function() {
-                const canvas = cropper.getCroppedCanvas({
+            // Crop image
+            $('#cropButton').on('click', function() {
+                var canvas = cropper.getCroppedCanvas({
                     width: 160,
                     height: 160,
                 });
-
-                const croppedImageData = canvas.toDataURL('image/jpeg');
-
-                imagePreview.src = croppedImageData;
-
-                document.getElementById('croppedImage').value = croppedImageData;
-
+                var croppedImageData = canvas.toDataURL('image/jpeg');
+                $imagePreview.attr('src', croppedImageData);
+                $('#croppedImage').val(croppedImageData);
                 cropperModal.hide();
             });
 
+            /** -----------------------------
+             * 4️⃣ Profile Save AJAX
+             * ----------------------------- */
             $('#saveProfileButton').on('click', function(e) {
                 e.preventDefault();
 
-                let formData = new FormData($('#profileUpdateForm')[0]);
+                var formData = new FormData($('#profileUpdateForm')[0]);
 
                 $.ajax({
                     url: "{{ route('admin.profile.update') }}",
-                    method: 'POST',
+                    method: "POST",
                     data: formData,
                     processData: false,
                     contentType: false,
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                            'content')
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                     },
                     success: function(response) {
                         profileModal.hide();
                         location.reload();
                     },
                     error: function(xhr) {
-                        let errors = xhr.responseJSON.errors;
-                        let errorMsg = 'An error occurred:\n';
+                        var errors = xhr.responseJSON.errors;
+                        var errorMsg = "An error occurred:\n";
                         $.each(errors, function(key, value) {
-                            errorMsg += value[0] + '\n';
+                            errorMsg += value[0] + "\n";
                         });
                         alert(errorMsg);
                     }
@@ -281,6 +282,7 @@
             });
         });
     </script>
+
     @stack('scripts')
     @include('sweetalert::alert')
 </body>

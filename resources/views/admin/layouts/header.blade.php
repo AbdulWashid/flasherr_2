@@ -75,7 +75,7 @@
 
                         <a href="#" class="btn btn-default btn-flat float-end"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Sign out
+                            Log out
                         </a>
                     </li>
                 </ul>

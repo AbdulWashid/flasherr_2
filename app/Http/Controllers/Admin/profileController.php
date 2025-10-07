@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileController extends Controller
@@ -17,43 +20,73 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8',
-            'cropped_image' => 'nullable|string',
-        ]);
+        DB::beginTransaction();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
+        try {
+            $validatedData = $request->validate([
+                'profile_name' => 'required|string|max:255',
+                'profile_email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+                'password' => 'nullable|string|min:8',
+                'cropped_image' => 'nullable|string',
+            ]);
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
-        if ($request->filled('cropped_image')) {
-            // Delete the old image if it exists
-            if ($user->image && Storage::disk('public')->exists($user->image)) {
-                Storage::disk('public')->delete($user->image);
+            if ($request->filled('cropped_image')) {
+                $user->image = $this->handleProfileImage($request->cropped_image, $user->image);
             }
 
-            $imageData = $request->cropped_image;
-            [$type, $imageData] = explode(';', $imageData);
-            [, $imageData] = explode(',', $imageData);
-            $imageData = base64_decode($imageData);
+            $user->name = $validatedData['profile_name'];
+            $user->email = $validatedData['profile_email'];
 
-            $imageName = 'avatars/' . Str::random(20) . '.jpg';
+            if (!empty($validatedData['password'])) {
+                $user->password = Hash::make($validatedData['password']);
+            }
 
-            Storage::disk('public')->put($imageName, $imageData);
+            $user->save();
 
-            $user->image = $imageName;
+            DB::commit();
+
+            Alert::toast('Profile updated successfully!', 'success');
+            return response()->json(
+                [
+                    'message' => 'Profile updated successfully!',
+                    'user' => [
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'image_url' => $user->image ? Storage::url($user->image) : null,
+                    ],
+                ],
+                200,
+            );
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            Alert::toast('Profile update failed!', 'error');
+            return response()->json(['message' => $e->getMessage(), 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Profile update failed: ' . $e->getMessage());
+
+            Alert::toast('Profile update failed!', 'error');
+
+            return response()->json(['message' => 'An unexpected error occurred. Please try again.'], 500);
+        }
+    }
+
+    private function handleProfileImage(string $imageBase64, ?string $oldImagePath): string
+    {
+        if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
+            Storage::disk('public')->delete($oldImagePath);
         }
 
-        $user->save();
+        preg_match('/data:image\/(?<extension>\w+);base64,/', $imageBase64, $matches);
+        $extension = $matches['extension'] ?? 'jpg';
 
-        // 2. Add the success alert to the session
-        Alert::success('Profile Updated!', 'Your profile has been updated successfully.');
+        $imageData = substr($imageBase64, strpos($imageBase64, ',') + 1);
+        $imageData = base64_decode($imageData);
 
-        return response()->json(['message' => 'Profile updated successfully!']);
+        $imageName = 'avatars/' . Str::random(20) . '.' . $extension;
+        Storage::disk('public')->put($imageName, $imageData);
+
+        return $imageName;
     }
 }

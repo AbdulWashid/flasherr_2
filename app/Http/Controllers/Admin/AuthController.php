@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -31,10 +32,8 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            alert()->error('Validation Error', 'Please check your inputs.');
-            return redirect()->back()
-                            ->withErrors($validator)
-                            ->withInput();
+            Alert::toast('Validation Error!', 'error');
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $credentials = $request->only('email', 'password');
@@ -43,17 +42,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            alert()->success('Login Successful', 'You have successfully logged in!');
+            Alert::toast('Login Successful!', 'success');
 
             return redirect()->intended(route('admin.dashboard'));
         }
 
-        alert()->error('Login Failed', 'The credentials you provided are incorrect.');
-        return redirect()->back()
-            ->withInput($request->only('email', 'remember'))
-            ->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
+        Alert::toast('Invalid Credentials!', 'error');
+        return redirect()->back()->withInput($request->only('email', 'remember'));
     }
 
     /**
@@ -65,8 +60,7 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        // alert()->success('Logged Out', 'You have been successfully logged out!');
+        Alert::toast('You have been logged out!', 'success');
 
         return redirect()->route('loginform');
     }
