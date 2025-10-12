@@ -39,3 +39,6 @@ Route::post('/sale', [SaleController::class, 'store'])->name('sale.store');
 Route::get('/buy', [BuyController::class, 'salesIndex'])->name('buy');
 Route::get('/buy-detail/{sale}', [BuyController::class, 'showSaleDetails'])->name('buy.detail');
 Route::post('/buy-request', [BuyRequestController::class, 'store'])->name('buy.request.store');
+
+
+
