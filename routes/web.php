@@ -32,13 +32,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth'], fu
     Route::delete('admin/buy-requests/{buyRequest}', [BuyRequestController::class, 'destroy'])->name('buy-requests.destroy');
 });
 
-// user
+// user routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sale', [SaleController::class, 'index'])->name('sale');
 Route::post('/sale', [SaleController::class, 'store'])->name('sale.store');
 Route::get('/buy', [BuyController::class, 'salesIndex'])->name('buy');
 Route::get('/buy-detail/{sale}', [BuyController::class, 'showSaleDetails'])->name('buy.detail');
 Route::post('/buy-request', [BuyRequestController::class, 'store'])->name('buy.request.store');
-
-
-
