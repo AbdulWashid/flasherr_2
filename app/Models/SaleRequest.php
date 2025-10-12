@@ -9,7 +9,7 @@ class SaleRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone_number', 'wallet_address', 'quantity', 'ip_address', 'documents_paths', 'status', 'is_read'];
+    protected $fillable = ['name', 'phone_number', 'email', 'whatsapp_number', 'wallet_address', 'quantity', 'ip_address', 'documents_paths', 'status', 'is_read'];
 
     protected $casts = [
         'documents_paths' => 'array',

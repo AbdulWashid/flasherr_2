@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/adminlte.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/cropper.min.css') }}" />
+    <link rel="shortcut icon" href="{{ asset('admin/assets/img/AdminLTELogo.png') }}" type="image/x-icon">
     @stack('styles')
 </head>
 

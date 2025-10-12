@@ -16,18 +16,21 @@ class SaleController extends Controller
     }
     public function store(Request $request)
     {
+        // dd($request->toArray());
         // 1. Validate the request data (this remains the same)
         $validatedData = $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
                 'phone_number' => ['required', 'string', 'max:20', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
+                'whatsapp_number' => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
                 'wallet_address' => ['required', 'string', 'max:255'],
                 'quantity' => ['required', 'numeric', 'min:10', 'max:100000000'],
                 'documents' => ['nullable', 'array', 'max:5'],
                 'documents.*' => ['file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
             ],
             [
-                'quantity.min' => 'The minimum selling quantity is 10 USDT.'
+                'quantity.min' => 'The minimum selling quantity is 10 USDT.',
             ],
         );
 
@@ -54,6 +57,8 @@ class SaleController extends Controller
                 'name' => $validatedData['name'],
                 'phone_number' => $validatedData['phone_number'],
                 'wallet_address' => $validatedData['wallet_address'],
+                'email' => $validatedData['email'],
+                'whatsapp_number' => $validatedData['whatsapp_number'] ?? null,
                 'quantity' => $validatedData['quantity'],
                 'ip_address' => request()->ip(),
                 'documents_paths' => !empty($documentsPaths) ? json_encode($documentsPaths) : null,

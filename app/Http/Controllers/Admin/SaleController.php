@@ -35,6 +35,7 @@ class SaleController extends Controller
         }
 
         $sales = $query->latest()->paginate(10)->withQueryString();
+        // dd($sales->toArray());
         return view('admin.sale.index', compact('sales'));
     }
 

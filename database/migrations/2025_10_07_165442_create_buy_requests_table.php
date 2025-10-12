@@ -12,12 +12,21 @@ return new class extends Migration {
     {
         Schema::create('buy_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sale_id')->constrained('sales')->onDelete('cascade');
+            $table->foreignId('sale_id')->constrained('sales')->onDelete('cascade'); // Assumes relation is with 'sales' table
             $table->string('name');
+            $table->string('email');
             $table->string('phone_number');
+            $table->string('country');
+            $table->string('city');
+            $table->text('address');
+            $table->string('network_type'); // e.g., trc20, bep20
             $table->string('wallet_address');
             $table->decimal('quantity', 18, 8);
-            $table->string('status')->default('pending');
+            $table->string('document_path')->nullable();
+            $table->string('photo_path')->nullable();
+            $table->string('address_proof_path')->nullable();
+            $table->string('status')->default('pending'); // You might want an enum here
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }

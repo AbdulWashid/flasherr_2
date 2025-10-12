@@ -8,6 +8,7 @@
                 <!-- Website Logo -->
                 <div class="logo-header">
                     <a href="{{route('home')}}" class="logo-light"><img src="{{asset('user/images/logo.png')}}" alt=""></a>
+                    {{-- <a href="{{route('home')}}" class="logo-light"><img src="{{asset('admin/assets/img/AdminLTELogo.png')}}" alt=""></a> --}}
                     <a href="{{route('home')}}" class="logo-dark"><img src="{{asset('user/images/logo-dark.png')}}" alt=""></a>
                 </div>
 

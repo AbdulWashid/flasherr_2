@@ -13,7 +13,9 @@ return new class extends Migration {
         Schema::create('sale_requests', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email');
             $table->string('phone_number');
+            $table->string('whatsapp_number')->nullable();
             $table->string('wallet_address');
             $table->decimal('quantity', 18, 8);
             $table->json('documents_paths')->nullable();

@@ -18,7 +18,7 @@
         content="Trade USDT (Tether) quickly and securely on Flasherr. Buy or sell USDT with INR at the best market prices.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ URL::to('/') }}">
-    <meta property="og:image" content="{{ URL::to('user/images/favicon.png') }}">
+    <meta property="og:image" content="{{ URL::to('admin/assets/img/AdminLTELogo.png') }}">
 
 
     <!-- Mobile Specific -->
@@ -28,7 +28,9 @@
     <title>Flasherr | @yield('title')</title>
 
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" href="{{ asset('user/images/favicon.png') }}">
+    {{-- <link rel="icon" type="image/png" href="{{ asset('user/images/favicon.png') }}"> --}}
+    <link rel="shortcut icon" href="{{ asset('admin/assets/img/AdminLTELogo.png') }}" type="image/x-icon">
+
 
     <!-- Stylesheet -->
     <link href="{{ asset('user/vendor/animate/animate.css') }}" rel="stylesheet">

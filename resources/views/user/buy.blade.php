@@ -6,7 +6,7 @@
 
     <div class="page-content">
         <!-- Main Banner Section - Similar to your homepage banner -->
-        <div class="main-bnr style-1" style="background-image: url('{{ asset('user/images/background/bg2.jpg') }}');">
+        {{-- <div class="main-bnr style-1" style="background-image: url('{{ asset('user/images/background/bg2.jpg') }}');">
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Sales Grid Section -->
         <section class="content-inner-2 coins-wrapper bg-light overflow-hidden">
@@ -29,10 +29,9 @@
 
                 <div class="row justify-content-center">
                     @forelse ($sales as $sale)
-                        <div class="col-xl-4 col-md-6 m-b30">
+                        <div class="col-xl-4 col-md-6 m-b30 bordered">
                             <div class="icon-bx-wraper style-1 box-hover text-center wow fadeInUp" data-wow-delay="0.{{ $loop->iteration + 2 }}s">
                                 <div class="icon-media m-b20">
-                                    {{-- Placeholder image for USDT coin --}}
                                     <img src="{{ asset('user/images/coins/coin3.png') }}" alt="USDT Coin">
                                 </div>
                                 <div class="icon-content">
@@ -81,4 +80,11 @@
 
 @push('scripts')
     {{-- Any page-specific scripts for this view, if needed --}}
+@endpush
+@push('styles')
+    <style>
+        .icon-bx-wraper.style-1:hover{
+            background: linear-gradient(180deg, #74b5db 0%, rgba(233, 247, 255, 0.1) 100%);
+        }
+    </style>
 @endpush
