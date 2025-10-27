@@ -16,7 +16,6 @@ class SaleController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->toArray());
         // 1. Validate the request data (this remains the same)
         $validatedData = $request->validate(
             [
@@ -26,6 +25,8 @@ class SaleController extends Controller
                 'whatsapp_number' => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
                 'wallet_address' => ['required', 'string', 'max:255'],
                 'quantity' => ['required', 'numeric', 'min:10', 'max:100000000'],
+                'rate' => ['required', 'numeric', 'min:1'],
+                'min_selling_qty' => ['nullable', 'numeric', 'min:0'],
                 'documents' => ['nullable', 'array', 'max:5'],
                 'documents.*' => ['file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
             ],
@@ -61,6 +62,8 @@ class SaleController extends Controller
                 'whatsapp_number' => $validatedData['whatsapp_number'] ?? null,
                 'quantity' => $validatedData['quantity'],
                 'ip_address' => request()->ip(),
+                'rate' => $validatedData['rate'],
+                'min_quantity' => $validatedData['min_selling_qty'],
                 'documents_paths' => !empty($documentsPaths) ? json_encode($documentsPaths) : null,
                 'status' => 'pending',
             ]);

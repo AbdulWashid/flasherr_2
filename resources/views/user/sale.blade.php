@@ -3,9 +3,9 @@
 @section('title', 'USDT Sale Request')
 
 @section('content')
-    <div class="page-content bg-light">
+    <div class="page-content bg-light ">
         <div class="container py-5">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mt-5">
                 <div class="col-lg-8 col-md-10">
                     <div class="card border-0 shadow-lg p-4 p-md-5 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="card-body">
@@ -97,11 +97,21 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="rate" class="form-label">Rate (USDT)</label>
+                                        <input type="number" name="rate" id="rate" value="{{ old('rate') }}"
+                                            step="0.01" min="1"
+                                            class="form-control @error('rate') is-invalid @enderror"
+                                            placeholder="e.g., 100.00" required>
+                                        @error('rate')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="min_selling_qty" class="form-label">Minimum Selling Quantity</label>
-                                    <input type="number" id="min_selling_qty" value="10.00" class="form-control">
+                                    <input type="number" id="min_selling_qty" name="min_selling_qty" value="10.00" class="form-control">
                                 </div>
 
                                 <div class="mb-4">

@@ -44,6 +44,13 @@
                         <p>Buy Requests</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.contact.index')}}"
+                        class="nav-link {{ request()->routeIs('admin.contact.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-chat-dots"></i>
+                        <p>Contact Messages</p>
+                    </a>
+                </li>
 
             </ul>
         </nav>

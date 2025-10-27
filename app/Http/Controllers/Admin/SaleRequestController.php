@@ -81,13 +81,17 @@ class SaleRequestController extends Controller
      */
     public function update(Request $request, SaleRequest $sale)
     {
+        // dd($request->toArray());
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'phone_number' => ['required', 'string', 'max:20', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
+            'whatsapp_number' => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
             'wallet_address' => ['required', 'string', 'max:255'],
             'quantity' => ['required', 'numeric', 'min:0'],
             'min_quantity' => ['nullable', 'numeric', 'min:0'],
             'status' => ['required', 'string', 'in:pending,approved,rejected'],
+            'rate' => ['required', 'numeric', 'min:1'],
         ]);
 
         $sale->update($validatedData);

@@ -11,13 +11,7 @@ class BuyController extends Controller
 {
     public function salesIndex(Request $request)
     {
-        // Fetch sales that are explicitly marked for display on the site,
-        // are not cancelled, and are either 'pending' or 'sold' (as per your admin logic)
-        $sales = Sale::with('saleRequest') // Eager load the related SaleRequest
-            ->where('display_status', true)
-            ->where('status', '!=', 'cancelled') // Ensure cancelled sales are not shown
-            ->latest() // Order by newest first
-            ->paginate(9); // Paginate for a grid layout (e.g., 3 columns x 3 rows per page)
+        $sales = Sale::with('saleRequest')->where('display_status', true)->where('status', '=', 'pending')->latest()->paginate(9);
 
         return view('user.buy', compact('sales'));
     }
@@ -31,11 +25,11 @@ class BuyController extends Controller
      */
     public function showSaleDetails(Sale $sale)
     {
-        // Only show details if the sale is meant for public display
-        if (!$sale->display_status || $sale->status == 'cancelled') {
-            abort(404); // Or redirect with an error message
+        if (!$sale->display_status || $sale->status != 'pending') {
+            abort(404);
         }
         $sale->load('saleRequest');
+        // dd($sale->toArray());
         return view('user.showDetails', compact('sale'));
     }
 }

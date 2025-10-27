@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('whatsapp_number')->nullable();
             $table->string('wallet_address');
             $table->decimal('quantity', 18, 8);
+            $table->decimal('rate', 18, 8);
             $table->json('documents_paths')->nullable();
             $table->string('status')->default('pending');
             $table->string('ip_address', 45)->nullable();

@@ -6,6 +6,8 @@
     <style>
         .detail-card .list-group-item {
             border: none;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
         }
 
         .document-image {
@@ -17,6 +19,20 @@
 
         .document-link {
             font-size: 1.2rem;
+        }
+
+        .status-change-dropdown {
+            width: auto;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        /* Ensure columns have some spacing on smaller screens if they stack */
+        @media (max-width: 767.98px) {
+            .detail-card .row .col-md-6:last-child {
+                margin-top: 1rem;
+            }
         }
     </style>
 @endpush
@@ -45,45 +61,63 @@
                         <div class="card-header">
                             <h3 class="card-title">Request Details</h3>
                         </div>
-                        <div class="card-body p-0">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item px-4 py-3"><strong>Name:</strong> {{ $request->name }}</li>
-                                <li class="list-group-item px-4 py-3"><strong>Phone Number:</strong>
-                                    {{ $request->phone_number }}</li>
-                                <li class="list-group-item px-4 py-3"><strong>Wallet Address :</strong>
-                                    {{ $request->wallet_address }}</li>
-                                <li class="list-group-item px-4 py-3"><strong>Quantity:</strong>
-                                    {{ rtrim(rtrim(number_format($request->quantity, 8), '0'), '.') }} USDT</li>
-                                <li class="list-group-item px-4 py-3"><strong>Status:</strong>
-                                    @php
-                                        $borderColorClass = '';
-                                        if ($request->status == 'approved') {
-                                            $borderColorClass = 'border-success';
-                                        } elseif ($request->status == 'rejected') {
-                                            $borderColorClass = 'border-danger';
-                                        } elseif ($request->status == 'pending') {
-                                            $borderColorClass = 'border-warning';
-                                        }
-                                    @endphp
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item py-3"><strong>Name:</strong> {{ $request->name }}</li>
+                                        <li class="list-group-item py-3"><strong>Email:</strong> {{ $request->email }}</li>
+                                        <li class="list-group-item py-3"><strong>Phone Number:</strong>
+                                            {{ $request->phone_number }}</li>
+                                        <li class="list-group-item py-3"><strong>WhatsApp Number:</strong>
+                                            {{ $request->whatsapp_number ?? 'N/A' }}</li>
+                                        <li class="list-group-item py-3"><strong>Submitted On:</strong>
+                                            {{ $request->created_at->format('d M, Y h:i:s A') }}</li>
 
-                                    <select
-                                        class="form-select form-select-sm status-change-dropdown border-bottom {{ $borderColorClass }}"
-                                        style="border-width: 2px;" data-id="{{ $request->id }}" aria-label="Update Status">
-                                        <option value="pending" {{ $request->status == 'pending' ? 'selected' : '' }}>
-                                            Pending
-                                        </option>
-                                        <option value="approved" {{ $request->status == 'approved' ? 'selected' : '' }}>
-                                            Approved
-                                        </option>
-                                        <option value="rejected" {{ $request->status == 'rejected' ? 'selected' : '' }}>
-                                            Rejected
-                                        </option>
-                                    </select>
-                                </li>
-                                {{-- <li class="list-group-item px-4 py-3"><strong>IP Address:</strong> {{ $request->ip_address }}</li> --}}
-                                <li class="list-group-item px-4 py-3"><strong>Submitted On:</strong>
-                                    {{ $request->created_at->format('d M, Y h:i:s A') }}</li>
-                            </ul>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item py-3"><strong>Wallet Address :</strong>
+                                            {{ $request->wallet_address }}</li>
+                                        <li class="list-group-item py-3"><strong>Quantity:</strong>
+                                            {{ rtrim(rtrim(number_format($request->quantity, 8), '0'), '.') }} USDT</li>
+                                        <li class="list-group-item py-3"><strong>Rate:</strong>
+                                            {{ rtrim(rtrim(number_format($request->rate, 8), '0'), '.') }}</li>
+                                        <li class="list-group-item py-3"><strong>Status:</strong>
+                                            @php
+                                                $borderColorClass = '';
+                                                if ($request->status == 'approved') {
+                                                    $borderColorClass = 'border-success';
+                                                } elseif ($request->status == 'rejected') {
+                                                    $borderColorClass = 'border-danger';
+                                                } elseif ($request->status == 'pending') {
+                                                    $borderColorClass = 'border-warning';
+                                                }
+                                            @endphp
+
+                                            <select
+                                                class="form-select form-select-sm status-change-dropdown border-bottom {{ $borderColorClass }}"
+                                                style="border-width: 2px;" data-id="{{ $request->id }}"
+                                                aria-label="Update Status">
+                                                <option value="pending"
+                                                    {{ $request->status == 'pending' ? 'selected' : '' }}>
+                                                    Pending
+                                                </option>
+                                                <option value="approved"
+                                                    {{ $request->status == 'approved' ? 'selected' : '' }}>
+                                                    Approved
+                                                </option>
+                                                <option value="rejected"
+                                                    {{ $request->status == 'rejected' ? 'selected' : '' }}>
+                                                    Rejected
+                                                </option>
+                                            </select>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <a href="{{ route('admin.sale-request.index') }}" class="btn btn-secondary">Back to List</a>
@@ -187,7 +221,8 @@
                         });
                     } else {
                         // If user cancels, revert the dropdown to its original value
-                        $(this).val($(this).find('option[selected]').val());
+                        // Find the previously selected option and set it back
+                        dropdown.val(dropdown.find('option[selected]').val());
                     }
                 });
             });

@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\{AuthController, DashboardController, ProfileCont
 
 use App\Http\Controllers\User\{HomeController, SaleController,BuyController,BuyRequestController};
 
+use App\Http\Controllers\ContactsController;
+
 //admin routes
 Route::get('/login', [AuthController::class, 'index'])->name('loginform');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -30,12 +32,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth'], fu
     Route::get('buy-requests', [BuyRequestController::class, 'buyRequests'])->name('buy-requests.index');
     Route::post('admin/buy-requests/update-status/{buyRequest}', [BuyRequestController::class, 'updateStatus'])->name('buy-requests.updateStatus');
     Route::delete('admin/buy-requests/{buyRequest}', [BuyRequestController::class, 'destroy'])->name('buy-requests.destroy');
+
+    Route::resource('contact', ContactsController::class)->except(['store']);
 });
 
 // user routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/sale', [SaleController::class, 'index'])->name('sale');
-Route::post('/sale', [SaleController::class, 'store'])->name('sale.store');
+Route::get('/', [HomeController::class, 'index'])->name('home'); //1
+Route::get('/sell', [SaleController::class, 'index'])->name('sale');
+Route::post('/sell', [SaleController::class, 'store'])->name('sale.store');
 Route::get('/buy', [BuyController::class, 'salesIndex'])->name('buy');
 Route::get('/buy-detail/{sale}', [BuyController::class, 'showSaleDetails'])->name('buy.detail');
 Route::post('/buy-request', [BuyRequestController::class, 'store'])->name('buy.request.store');
+Route::post('contact', [ContactsController::class, 'store'])->name('contact.store');

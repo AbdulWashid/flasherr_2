@@ -17,6 +17,13 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        /* Added for the info card */
+        .info-card .list-group-item {
+            border: none;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
     </style>
 @endpush
 
@@ -49,24 +56,55 @@
                             @csrf
                             @method('PUT')
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" name="name" id="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $request->name) }}">
-                                    @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" name="name" id="name"
+                                                class="form-control @error('name') is-invalid @enderror"
+                                                value="{{ old('name', $request->name) }}">
+                                            @error('name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" name="email" id="email"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                value="{{ old('email', $request->email) }}">
+                                            @error('email')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="phone_number" class="form-label">Phone Number</label>
-                                    <input type="text" name="phone_number" id="phone_number"
-                                        class="form-control @error('phone_number') is-invalid @enderror"
-                                        value="{{ old('phone_number', $request->phone_number) }}">
-                                    @error('phone_number')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phone_number" class="form-label">Phone Number</label>
+                                            <input type="text" name="phone_number" id="phone_number"
+                                                class="form-control @error('phone_number') is-invalid @enderror"
+                                                value="{{ old('phone_number', $request->phone_number) }}">
+                                            @error('phone_number')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="whatsapp_number" class="form-label">WhatsApp Number</label>
+                                            <input type="text" name="whatsapp_number" id="whatsapp_number"
+                                                class="form-control @error('whatsapp_number') is-invalid @enderror"
+                                                value="{{ old('whatsapp_number', $request->whatsapp_number) }}">
+                                            @error('whatsapp_number')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
@@ -80,7 +118,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="quantity" class="form-label">Quantity (USDT)</label>
                                             <input type="number" step="any" name="quantity" id="quantity"
@@ -91,13 +129,24 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="min_quantity" class="form-label">Minimum Quantity (USDT)</label>
+                                            <label for="min_quantity" class="form-label">Min Quantity (USDT)</label>
                                             <input type="number" step="any" name="min_quantity" id="min_quantity"
                                                 class="form-control @error('min_quantity') is-invalid @enderror"
                                                 value="{{ old('min_quantity', $request->min_quantity ?? 10) }}">
                                             @error('min_quantity')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="rate" class="form-label">Rate</label>
+                                            <input type="number" step="any" name="rate" id="rate"
+                                                class="form-control @error('rate') is-invalid @enderror"
+                                                value="{{ old('rate', $request->rate) }}">
+                                            @error('rate')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -131,8 +180,11 @@
                     </div>
                 </div>
 
-                {{-- Documents Column --}}
+                {{-- Info & Documents Column --}}
                 <div class="col-md-4">
+
+
+                    {{-- Documents Card --}}
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Manage Documents</h3>

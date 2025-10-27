@@ -56,7 +56,7 @@
                                                     } elseif ($sale->status == 'cancelled') {
                                                         $statusClass = 'bg-danger';
                                                     } else {
-                                                        $statusClass = 'bg-warning';
+                                                        $statusClass = 'bg-warning text-dark';
                                                     }
                                                 @endphp
                                                 <span class="badge {{ $statusClass }}">{{ ucfirst($sale->status) }}</span>
@@ -86,10 +86,6 @@
                                         <tr>
                                             <th>Created At</th>
                                             <td>{{ $sale->created_at->format('d M, Y h:i A') }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Last Updated</th>
-                                            <td>{{ $sale->updated_at->format('d M, Y h:i A') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
