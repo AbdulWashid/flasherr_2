@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="page-content">
-    <section class="content-inner-2 bg-light" style="padding-top: 80px;">
+    <section class="content-inner-2 bg-light">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10 wow fadeInUp" data-wow-delay="0.2s">
@@ -66,6 +66,7 @@
                                 @csrf
                                 <input type="hidden" name="sale_id" value="{{ $sale->id }}">
 
+                                {{-- PERSONAL INFORMATION --}}
                                 <h5 class="mb-3">Personal Information</h5>
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Full Name</label>
@@ -97,33 +98,114 @@
                                     @enderror
                                 </div>
 
+                                {{-- ADDRESS INFORMATION --}}
+                                <hr class="my-4">
+                                <h5 class="mb-3">Address Information</h5>
+                                <div class="mb-3">
+                                    <label for="country" class="form-label">Country</label>
+                                    <select class="form-select @error('country') is-invalid @enderror" id="country"
+                                        name="country" required>
+                                        <option value="" selected disabled>-- Select Your Country --</option>
+                                        <option value="IN" {{ old('country') == 'IN' ? 'selected' : '' }}>India</option>
+                                        <option value="US" {{ old('country') == 'US' ? 'selected' : '' }}>United States</option>
+                                        <option value="GB" {{ old('country') == 'GB' ? 'selected' : '' }}>United Kingdom</option>
+                                    </select>
+                                    @error('country')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="city" class="form-label">City</label>
+                                        <input type="text" class="form-control @error('city') is-invalid @enderror"
+                                            id="city" name="city" value="{{ old('city') }}"
+                                            placeholder="e.g., New Delhi" required>
+                                        @error('city')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Street Address</label>
+                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3"
+                                        placeholder="1234 Main St, Apartment, studio, or floor" required>{{ old('address') }}</textarea>
+                                    @error('address')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- PURCHASE DETAILS --}}
                                 <hr class="my-4">
                                 <h5 class="mb-3">Purchase Details</h5>
-
                                 <div class="mb-3">
                                     <label for="network_type" class="form-label">USDT Network Type</label>
                                     <select class="form-select @error('network_type') is-invalid @enderror"
                                         id="network_type" name="network_type" required>
                                         <option value="" selected disabled>-- Select Network --</option>
-                                        <option value="trc20">TRC20 (Tron)</option>
-                                        <option value="bep20">BEP20 (BNB Smart Chain)</option>
-                                        <option value="erc20">ERC20 (Ethereum)</option>
+                                        <option value="trc20" {{ old('network_type') == 'trc20' ? 'selected' : '' }}>TRC20 (Tron)</option>
+                                        <option value="bep20" {{ old('network_type') == 'bep20' ? 'selected' : '' }}>BEP20 (BNB Smart Chain)</option>
+                                        <option value="erc20" {{ old('network_type') == 'erc20' ? 'selected' : '' }}>ERC20 (Ethereum)</option>
                                     </select>
+                                    @error('network_type')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="wallet_address" class="form-label">Your USDT Wallet Address</label>
-                                    <input type="text" class="form-control" id="wallet_address" name="wallet_address"
-                                        value="{{ old('wallet_address') }}" placeholder="Enter your USDT wallet" required>
+                                    <input type="text" class="form-control @error('wallet_address') is-invalid @enderror"
+                                        id="wallet_address" name="wallet_address" value="{{ old('wallet_address') }}"
+                                        placeholder="Enter your USDT wallet" required>
+                                    @error('wallet_address')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="quantity" class="form-label">Required Quantity</label>
-                                    <input type="number" step="0.00000001" class="form-control" id="quantity"
-                                        name="quantity" value="{{ old('quantity') }}" placeholder="e.g., 500.00" required>
+                                    <input type="number" step="0.00000001" class="form-control @error('quantity') is-invalid @enderror"
+                                        id="quantity" name="quantity" value="{{ old('quantity') }}" placeholder="e.g., 500.00" required>
                                     <div class="form-text">Maximum available:
                                         {{ rtrim(rtrim(number_format($sale->quantity, 8), '0'), '.') }} USDT
                                     </div>
+                                    @error('quantity')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- DOCUMENT UPLOADS --}}
+                                <hr class="my-4">
+                                <h5 class="mb-3">KYC Documents</h5>
+                                <div class="mb-3">
+                                    <label for="document" class="form-label">Identification Document</label>
+                                    <input class="form-control @error('document') is-invalid @enderror" type="file"
+                                        id="document" name="document" required>
+                                    <div class="form-text">e.g., Passport, National ID Card, Driver's License.</div>
+                                    @error('document')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="photo" class="form-label">Your Photo (Selfie)</label>
+                                    <input class="form-control @error('photo') is-invalid @enderror" type="file"
+                                        id="photo" name="photo" required>
+                                    <div class="form-text">A clear, recent photo of yourself.</div>
+                                    @error('photo')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address_proof" class="form-label">Address Proof</label>
+                                    <input class="form-control @error('address_proof') is-invalid @enderror" type="file"
+                                        id="address_proof" name="address_proof" required>
+                                    <div class="form-text">e.g., Utility bill, bank statement (not older than 3 months).</div>
+                                    @error('address_proof')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="text-center mt-4 pt-2">
@@ -157,4 +239,13 @@
         });
     });
 </script>
+@endpush
+
+@push('styles')
+    <style>
+        .content-inner-2 {
+            padding-top: 120px !important;
+            padding-bottom: 120px !important;
+        }
+    </style>
 @endpush

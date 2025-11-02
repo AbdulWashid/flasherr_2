@@ -8,36 +8,15 @@ use App\Models\BuyRequest;
 use App\Models\Sale;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class BuyRequestController extends Controller
 {
-    public function store_old(Request $request)
-    {
-        $sale = Sale::findOrFail($request->input('sale_id'));
-
-        $validatedData = $request->validate([
-            'sale_id' => 'required|exists:sales,id',
-            'name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'wallet_address' => 'required|string|max:255',
-            'quantity' => ['required', 'numeric', 'min:0.00000001', 'max:' . $sale->quantity],
-        ]);
-
-        // Create the new buy request
-        BuyRequest::create($validatedData);
-
-        // Show a success toast message
-        Alert::toast('Your purchase request has been submitted successfully!', 'success');
-
-        // Redirect back to the same page
-        return redirect()->back();
-    }
     public function store(Request $request)
     {
-        // dd($request->toArray());
         $sale = Sale::findOrFail($request->input('sale_id'));
 
-        // 1. Validate all incoming data, including files
         $validatedData = $request->validate([
             'sale_id' => 'required|exists:sales,id',
             'name' => 'required|string|max:255',
@@ -57,7 +36,6 @@ class BuyRequestController extends Controller
         $filePaths = [];
 
         try {
-            // 2. Handle file uploads and store their paths
             if ($request->hasFile('document')) {
                 $filePaths['document_path'] = $request->file('document')->store('buy_documents/ids', 'public');
             }
@@ -68,16 +46,13 @@ class BuyRequestController extends Controller
                 $filePaths['address_proof_path'] = $request->file('address_proof')->store('buy_documents/proofs', 'public');
             }
 
-            // 3. Merge validated text data with file paths
             $dataToCreate = array_merge($validatedData, $filePaths);
 
-            // 4. Create the new buy request
             BuyRequest::create($dataToCreate);
 
-            // Show a success message
             Alert::success('Success!', 'Your purchase request has been submitted successfully!');
 
-            return redirect()->route('buy'); // Redirect to the main buy page or a success page
+            return redirect()->route('buy');
         } catch (\Exception $e) {
             Log::error('Buy Request Submission Failed: ' . $e->getMessage());
             Alert::error('Submission Failed', 'Something went wrong. Please try again.');
@@ -130,6 +105,95 @@ class BuyRequestController extends Controller
     {
         $buyRequest->delete();
         Alert::toast('Buy request deleted successfully.', 'success');
-        return redirect()->route('buy.index');
+        return redirect()->route('admin.buy-requests.index');
+    }
+
+    /**
+     * Display the specified buy request.
+     */
+    public function show(BuyRequest $buyRequest)
+    {
+        // Eager load the relationships
+        $buyRequest->load('sale.saleRequest');
+        return view('admin.buy.show', compact('buyRequest'));
+    }
+
+    /**
+     * Show the form for editing the specified buy request.
+     */
+    public function edit(BuyRequest $buyRequest)
+    {
+        return view('admin.buy.edit', compact('buyRequest'));
+    }
+
+    /**
+     * Update the specified buy request in storage.
+     */
+    public function update(Request $request, BuyRequest $buyRequest)
+    {
+        // Load the related sale to validate max quantity
+        $buyRequest->load('sale');
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_number' => 'required|string|max:20',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'address' => 'required|string|max:1000',
+            'network_type' => ['required', 'string', Rule::in(['trc20', 'bep20', 'erc20'])],
+            'wallet_address' => 'required|string|max:255',
+            'quantity' => ['required', 'numeric', 'min:0.00000001', 'max:' . $buyRequest->sale->quantity],
+
+            // Files are optional (nullable) on update
+            'document' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'address_proof' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        try {
+            // Update all the text-based fields
+            $buyRequest->update($request->only([
+                'name', 'email', 'phone_number', 'country', 'city', 'address',
+                'network_type', 'wallet_address', 'quantity'
+            ]));
+
+            // Handle Document Upload
+            if ($request->hasFile('document')) {
+                // Delete old file if it exists
+                if ($buyRequest->document_path) {
+                    Storage::disk('public')->delete($buyRequest->document_path);
+                }
+                // Store new file
+                $buyRequest->document_path = $request->file('document')->store('buy_documents/ids', 'public');
+            }
+
+            // Handle Photo Upload
+            if ($request->hasFile('photo')) {
+                if ($buyRequest->photo_path) {
+                    Storage::disk('public')->delete($buyRequest->photo_path);
+                }
+                $buyRequest->photo_path = $request->file('photo')->store('buy_documents/photos', 'public');
+            }
+
+            // Handle Address Proof Upload
+            if ($request->hasFile('address_proof')) {
+                if ($buyRequest->address_proof_path) {
+                    Storage::disk('public')->delete($buyRequest->address_proof_path);
+                }
+                $buyRequest->address_proof_path = $request->file('address_proof')->store('buy_documents/proofs', 'public');
+            }
+
+            // Save the changes (for file paths)
+            $buyRequest->save();
+
+            Alert::success('Success!', 'Buy request updated successfully!');
+            return redirect()->route('admin.buy-requests.index');
+
+        } catch (\Exception $e) {
+            Log::error('Buy Request Update Failed: '. $e->getMessage());
+            Alert::error('Update Failed', 'Something went wrong. Please try again.');
+            return redirect()->back()->withInput();
+        }
     }
 }

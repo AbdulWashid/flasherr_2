@@ -7,15 +7,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords"
-        content="USDT, Tether, Buy USDT, Sell USDT, USDT trading, Flasherr, Crypto exchange, USDT to INR, INR to USDT">
-    <meta name="author" content="Flasherr">
+        content="USDT, Tether, Buy USDT, Sell USDT, USDT trading, {{ $domainName }}, Crypto exchange, USDT to INR, INR to USDT">
+    <meta name="author" content="{{ $domainName }}">
     <meta name="robots" content="index, follow">
     <meta name="description"
-        content="Flasherr - Fast and secure platform to buy and sell USDT (Tether). Trade USDT instantly with INR at the best market rates.">
+        content="{{ $domainName }} - Fast and secure platform to buy and sell USDT (Tether). Trade USDT instantly with INR at the best market rates.">
 
-    <meta property="og:title" content="Flasherr - Buy & Sell USDT Instantly">
+    <meta property="og:title" content="{{ $domainName }} - Buy & Sell USDT Instantly">
     <meta property="og:description"
-        content="Trade USDT (Tether) quickly and securely on Flasherr. Buy or sell USDT with INR at the best market prices.">
+        content="Trade USDT (Tether) quickly and securely on {{ $domainName }}. Buy or sell USDT with INR at the best market prices.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ URL::to('/') }}">
     <meta property="og:image" content="{{ URL::to('admin/assets/img/AdminLTELogo.png') }}">
@@ -25,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Title -->
-    <title>Flasherr | @yield('title')</title>
+    <title>{{ $domainName }} | @yield('title')</title>
 
     <!-- Favicon icon -->
     {{-- <link rel="icon" type="image/png" href="{{ asset('user/images/favicon.png') }}"> --}}

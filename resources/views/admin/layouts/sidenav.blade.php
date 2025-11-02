@@ -3,7 +3,7 @@
         <a href="{{ route('admin.dashboard') }}" class="brand-link">
             <img src="{{ asset('admin/assets/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                 class="brand-image opacity-75 shadow" />
-            <span class="brand-text fw-light">Flasherr</span>
+            <span class="brand-text fw-light">{{ $domainName }}</span>
         </a>
     </div>
     <div class="sidebar-wrapper">

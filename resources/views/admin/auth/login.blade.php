@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Flasherr</title>
+    <title>Admin | {{ $domainName }}</title>
     <link rel="stylesheet" href="{{ asset('admin/css/fontsource.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('admin/css/bootstrap-icons.min.css') }}" />
@@ -155,7 +155,7 @@
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <p class="h1">Flasherr </p>
+                <p class="h1">{{ $domainName }} </p>
             </div>
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>

@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, ProfileController, SaleRequestController as AdminSaleRequestController, SaleController as AdminSaleController};
 
 //user Routes
-
 use App\Http\Controllers\User\{HomeController, SaleController,BuyController,BuyRequestController};
-
 use App\Http\Controllers\ContactsController;
 
 //admin routes
@@ -30,14 +28,19 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth'], fu
     Route::get('sale/create-from-request/{saleRequest}', [AdminSaleController::class, 'createFromRequest'])->name('sale.createFromRequest');
 
     Route::get('buy-requests', [BuyRequestController::class, 'buyRequests'])->name('buy-requests.index');
-    Route::post('admin/buy-requests/update-status/{buyRequest}', [BuyRequestController::class, 'updateStatus'])->name('buy-requests.updateStatus');
-    Route::delete('admin/buy-requests/{buyRequest}', [BuyRequestController::class, 'destroy'])->name('buy-requests.destroy');
+    Route::post('buy-requests/update-status/{buyRequest}', [BuyRequestController::class, 'updateStatus'])->name('buy-requests.updateStatus');
+    Route::delete('buy-requests/{buyRequest}', [BuyRequestController::class, 'destroy'])->name('buy-requests.destroy');
+
+    Route::get('buy-requests/{buyRequest}', [BuyRequestController::class, 'show'])->name('buy-requests.show');
+    Route::get('buy-requests/{buyRequest}/edit', [BuyRequestController::class, 'edit'])->name('buy-requests.edit');
+    Route::put('buy-requests/{buyRequest}', [BuyRequestController::class, 'update'])->name('buy-requests.update');
 
     Route::resource('contact', ContactsController::class)->except(['store']);
 });
 
 // user routes
-Route::get('/', [HomeController::class, 'index'])->name('home'); //1
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/sell', [SaleController::class, 'index'])->name('sale');
 Route::post('/sell', [SaleController::class, 'store'])->name('sale.store');
 Route::get('/buy', [BuyController::class, 'salesIndex'])->name('buy');

@@ -3,16 +3,16 @@
 @section('title', 'Home')
 
 @section('content')
-
     <div class="page-content">
         <div class="main-bnr">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-xl-7 col-md-6">
                         <h1 class="wow fadeInUp" data-wow-delay="0.2s">Buy & Sell <span class="text-line">USDT
-                                Instantly</span><br>with Unmatched Speed</h1>
+                                - Anytime,</span><br>Anywhere 🚀</h1>
                         <p class="text text-primary wow fadeInUp" data-wow-delay="0.4s">
-                            The fastest and most secure way to buy & sell USDT. Powered by Flasherr.
+                            💰 Lowest rates. 100% verified users. Instant payouts.
+                            Powered by FinLab — Trusted by real traders worldwide.
                         </p>
 
                         <div class="contant-box style-1 wow fadeInUp" data-wow-delay="0.6s">
@@ -39,12 +39,12 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-4 m-b30">
-                        <div class="crypto-box wow fadeInUp buy-btn" data-wow-delay="1.0s">
+                        <div class="crypto-box wow fadeInUp buy-btn" data-wow-delay="0.5s">
                             <div class="crypto-media">
                                 <img src="{{ asset('user/images/coins/coin7.png') }}" alt="">
                             </div>
                             <div class="crypto-info">
-                                <h5>Buy USDT</h5>
+                                <h5 class="fw-bold">Buy USDT</h5>
                                 <a href="{{ route('buy') }}" class="btn btn-square btn-primary ">
 
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -59,19 +59,19 @@
                         </div>
                     </div>
                     <div class="col-lg-4 m-b30">
-                        <div class="crypto-box wow fadeInUp sell-btn" data-wow-delay="1.2s">
+                        <div class="crypto-box wow fadeInUp sell-btn" data-wow-delay="0.6s">
                             <div class="crypto-media">
                                 <img src="{{ asset('user/images/coins/coin3.png') }}" alt="">
                             </div>
                             <div class="crypto-info">
-                                <h5>Sell USDT</h5>
+                                <h5 class="fw-bold">Sell USDT</h5>
                                 <a href="{{ route('sale') }}" class="btn btn-square btn-primary">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4.1665 10H15.8332" stroke="white" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                         <path d="M10 4.16666L15.8333 9.99999L10 15.8333" stroke="white" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"/>
+                                            stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </a>
                             </div>
@@ -86,18 +86,18 @@
                 <div class="row">
                     <div class="col-lg-6 m-b30">
                         <div class="section-head wow fadeInUp" data-wow-delay="0.2s">
-                            <h2 class="title">With <span class="text-primary">Flasherr</span><br> buy famous crypto coins
-                                easily</h2>
+                            <h2 class="title">With <span class="text-primary">{{ $domainName }}</span><br> buy and sell
+                                famous crypto coin easily</h2>
                         </div>
                         <h5 class="sub-title text-primary wow fadeInUp" data-wow-delay="0.4s">Get started in a few minutes
                         </h5>
                         <ul class="list-style-1">
-                            <li class="wow fadeInUp" data-wow-delay="0.6s">Create and verify your account in minutes</li>
-                            <li class="wow fadeInUp" data-wow-delay="0.8s">Securely transfer funds from your bank</li>
-                            <li class="wow fadeInUp" data-wow-delay="1.0s">Buy or sell USDT and other crypto easily</li>
+                            <li class="wow fadeInUp" data-wow-delay="0.6s">Click on buy / sell now button</li>
+                            <li class="wow fadeInUp" data-wow-delay="0.8s">Select buyer or Seller</li>
+                            <li class="wow fadeInUp" data-wow-delay="1.0s">And easily buy crypto</li>
                         </ul>
-                        <a href="https://finlab.dexignlab.com/xhtml/crypto.html"
-                            class="btn btn-lg  btn-shadow btn-primary wow fadeInUp" data-wow-delay="1.2s" target="blank">BUY
+                        <a href="{{ route('buy') }}" class="btn btn-lg  btn-shadow btn-primary wow fadeInUp"
+                            data-wow-delay="1.2s" target="blank">BUY
                             USDT NOW</a>
                     </div>
                     <div class="col-lg-6 m-b30">
@@ -132,7 +132,7 @@
                                             src="{{ asset('user/images/coins/coin7.png') }}" alt=""></li>
                                 </ul>
                             </div>
-                            <div class="center-media">
+                            <div class="center-media d-flex justify-content-center align-items-center">
                                 <img data-350="transform:scale(0) rotate(0deg);"
                                     data-550="transform:scale(1) rotate(360deg);"
                                     src="{{ asset('user/images/logo-icon.png') }}" alt="">
@@ -171,21 +171,24 @@
                     <div class="col-lg-6 m-b30 ">
                         <div class="dz-media">
                             <img src="{{ asset('user/images/about/pic1.jpg') }}" alt="image" class="rounded">
-                            <div class="content-box wow bounceInLeft" data-wow-delay="0.6s">
+                            {{-- <div class="content-box wow bounceInLeft" data-wow-delay="0.6s">
                                 <h6 class="m-a0">Access real-time analytical <br>market & price data for USDT</h6>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="col-lg-6 m-b30">
                         <div class="inner-content">
                             <div class="section-head">
-                                <h3 class="title wow fadeInUp" data-wow-delay="0.6s">The World’s 1st ICO <br>Platform That
-                                    Offers<br> Rewards</h3>
-                                <p class="font-text wow fadeInUp" data-wow-delay="0.8s">Discover exclusive ICO opportunities and earn rewards. Our platform provides in-depth analysis to help you make informed decisions in the crypto market.</p>
+                                <h3 class="title wow fadeInUp" data-wow-delay="0.6s">The World’s 1st Crypto <br>Platform
+                                    where
+                                    You connect with<br> Buyers & Sellers Offline</h3>
+                                <p class="font-text wow fadeInUp" data-wow-delay="0.8s">
+                                    Build real connections in the crypto world - meet verified traders, exchange ideas, and
+                                    trade securely both online and offline.
+                                </p>
                             </div>
 
                             <div class="contant-box style-1 p-t60" data-wow-delay="1.0s">
-                                <a href="contact-us.html" class="btn btn-primary m-r30">PURCHASE TOKENS</a>
                                 <a class="video-btn style-1 popup-youtube"
                                     href="https://www.youtube.com/watch?v=cfmQFW1DpA0">
                                     <i class="fa fa-play"></i>
@@ -201,7 +204,8 @@
         <section class="content-inner overflow-hidden">
             <div class="container">
                 <div class="section-head text-center">
-                    <h2 class="title wow fadeInUp" data-wow-delay="0.4s">Why Choose <span class="text-primary">Flasherr</span> for USDT?
+                    <h2 class="title wow fadeInUp" data-wow-delay="0.4s">Why Choose <span
+                            class="text-primary">{{ $domainName }}</span> for USDT?
                     </h2>
                 </div>
                 <div class="row justify-content-center">
@@ -211,8 +215,9 @@
                                 <img src="{{ asset('user/images/icons/icon3.svg') }}" alt="">
                             </div>
                             <div class="icon-content">
-                                <h4 class="title">Lower fees & no <br>hidden costs</h4>
-                                <p>Trade USDT with transparent pricing and minimal fees, maximizing your returns.</p>
+                                <h4 class="title">Real Offline Connections</h4>
+                                <p>Meet verified crypto buyers and sellers in person — build trust, grow your network, and
+                                    make real-world deals.</p>
                             </div>
                         </div>
                     </div>
@@ -223,8 +228,9 @@
                                 <img src="{{ asset('user/images/icons/icon4.svg') }}" alt="">
                             </div>
                             <div class="icon-content">
-                                <h4 class="title">Dedicated <br>Multi-language Support</h4>
-                                <p>Our team is here to assist you in your preferred language, ensuring a smooth trading experience.</p>
+                                <h4 class="title">2. Safe & Transparent Trades</h4>
+                                <p>All transactions are verified and recorded, ensuring full security and zero hidden risks.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -234,8 +240,9 @@
                                 <img src="{{ asset('user/images/icons/icon5.svg') }}" alt="">
                             </div>
                             <div class="icon-content">
-                                <h4 class="title">Your Simple Gateway<br> to USDT Trading</h4>
-                                <p>Easily access the USDT market with our intuitive platform, designed for all users.</p>
+                                <h4 class="title">3. World’s Cheapest Crypto Rates</h4>
+                                <p>Buy and sell crypto at unbeatable prices — FinLab gives you the lowest transaction rates
+                                    in the market.</p>
                             </div>
                         </div>
                     </div>
@@ -278,7 +285,7 @@
                                         </ul>
                                     </div>
                                     <h5 class="dz-title"><a href="blog-details.html">Five Things To Avoid In
-                                                Cryptocurrency.</a></h5>
+                                            Cryptocurrency.</a></h5>
                                     <p>Nostrud tem exrcitation duis laboris nisi ut aliquip sed duis aute.</p>
                                     <a href="blog-details.html" class="btn btn-primary">Read More</a>
                                 </div>
@@ -302,7 +309,7 @@
                                         </ul>
                                     </div>
                                     <h5 class="dz-title"><a href="blog-details.html">Things That Make You Love
-                                                Cryptocurrency.</a></h5>
+                                            Cryptocurrency.</a></h5>
                                     <p>Nostrud tem exrcitation duis laboris nisi ut aliquip sed duis aute.</p>
                                     <a href="blog-details.html" class="btn btn-primary">Read More</a>
                                 </div>
@@ -326,7 +333,7 @@
                                         </ul>
                                     </div>
                                     <h5 class="dz-title"><a href="blog-details.html">Directly support individuals
-                                                Crypto</a></h5>
+                                            Crypto</a></h5>
                                     <p>Nostrud tem exrcitation duis laboris nisi ut aliquip sed duis aute.</p>
                                     <a href="blog-details.html" class="btn btn-primary">Read More</a>
                                 </div>
@@ -350,7 +357,7 @@
                                         </ul>
                                     </div>
                                     <h5 class="dz-title"><a href="blog-details.html">Five Things To Avoid In
-                                                Cryptocurrency.</a></h5>
+                                            Cryptocurrency.</a></h5>
                                     <p>Nostrud tem exrcitation duis laboris nisi ut aliquip sed duis aute.</p>
                                     <a href="blog-details.html" class="btn btn-primary">Read More</a>
                                 </div>
@@ -374,7 +381,7 @@
                                         </ul>
                                     </div>
                                     <h5 class="dz-title"><a href="blog-details.html">Things That Make You Love
-                                                Cryptocurrency.</a></h5>
+                                            Cryptocurrency.</a></h5>
                                     <p>Nostrud tem exrcitation duis laboris nisi ut aliquip sed duis aute.</p>
                                     <a href="blog-details.html" class="btn btn-primary">Read More</a>
                                 </div>
@@ -398,7 +405,7 @@
                                         </ul>
                                     </div>
                                     <h5 class="dz-title"><a href="blog-details.html">Directly support individuals
-                                                Crypto</a></h5>
+                                            Crypto</a></h5>
                                     <p>Nostrud tem exrcitation duis laboris nisi ut aliquip sed duis aute.</p>
                                     <a href="blog-details.html" class="btn btn-primary">Read More</a>
                                 </div>
@@ -413,7 +420,7 @@
             </div>
         </section>
 
-        <section class=" bg-light call-to-action">
+        {{-- <section class=" bg-light call-to-action">
             <div class="container">
                 <h2 class="title text-capitalize text-center p-b15 wow fadeInUp" data-wow-delay="0.6s">Cryptocurrency
                     Calculator <br> For Any Kind Of Currency</h2>
@@ -422,7 +429,7 @@
                         Calculator</a>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         <section class="content-inner-3 bg-light">
             <div class="container">
@@ -481,7 +488,7 @@
                     <div class="col-lg-3">
                         <div class="section-head wow fadeInUp" data-wow-delay="0.2s">
                             <h6 class="sub-title text-white">JOIN US</h6>
-                            <h4 class="title text-white">Stay Updated with Flasherr</h4>
+                            <h4 class="title text-white">Stay Updated with {{ $domainName }}</h4>
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -521,7 +528,7 @@
                 </div>
             </div>
         </section>
-        </div>
+    </div>
 
 @endsection
 @push('scripts')
@@ -535,10 +542,10 @@
             });
         }
         $(document).ready(function() {
-            $('.buy-btn').click(function(){
+            $('.buy-btn').click(function() {
                 window.location.href = "{{ route('buy') }}";
             });
-            $('.sell-btn').click(function(){
+            $('.sell-btn').click(function() {
                 window.location.href = "{{ route('sale') }}";
             });
         });

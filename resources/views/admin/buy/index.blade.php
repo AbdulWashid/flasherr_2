@@ -45,7 +45,8 @@
                                     </div>
                                     <div class="col-md-3 d-flex">
                                         <button type="submit" class="btn btn-primary">Filter</button>
-                                        <a href="{{ route('admin.buy-requests.index') }}" class="btn btn-secondary ms-2">Reset</a>
+                                        <a href="{{ route('admin.buy-requests.index') }}"
+                                            class="btn btn-secondary ms-2">Reset</a>
                                     </div>
                                 </div>
                             </form>
@@ -104,9 +105,17 @@
                                                 </td>
                                                 <td>{{ $request->created_at->format('d M, Y') }}</td>
                                                 <td>
+                                                    <a href="{{ route('admin.buy-requests.show', $request->id) }}"
+                                                        class="btn btn-sm text-info" title="View"><i
+                                                            class="bi bi-eye"></i></a>
+                                                    <a href="{{ route('admin.buy-requests.edit', $request->id) }}"
+                                                        class="btn btn-sm text-primary" title="Edit"><i
+                                                            class="bi bi-pencil"></i></a>
+
                                                     <button class="btn btn-sm text-danger ms-1 delete-btn"
                                                         data-id="{{ $request->id }}" title="Delete"><i
                                                             class="bi bi-trash"></i></button>
+
                                                     <form id="delete-form-{{ $request->id }}"
                                                         action="{{ route('admin.buy-requests.destroy', $request->id) }}"
                                                         method="POST" style="display: none;">
