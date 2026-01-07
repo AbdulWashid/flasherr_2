@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sale;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\PaymentDetail;
 
 class BuyController extends Controller
 {
     public function salesIndex(Request $request)
     {
         $sales = Sale::with('saleRequest')->where('display_status', true)->where('status', '=', 'pending')->latest()->paginate(9);
-
         return view('user.buy', compact('sales'));
     }
 
@@ -29,7 +29,8 @@ class BuyController extends Controller
             abort(404);
         }
         $sale->load('saleRequest');
+        $paymentDetail = PaymentDetail::findOrFail(1);
         // dd($sale->toArray());
-        return view('user.showDetails', compact('sale'));
+        return view('user.showDetails', compact('sale', 'paymentDetail'));
     }
 }

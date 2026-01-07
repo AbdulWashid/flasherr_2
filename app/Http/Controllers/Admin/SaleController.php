@@ -8,7 +8,7 @@ use App\Models\Sale;
 use App\Models\SaleRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Arr;
+// use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
 class SaleController extends Controller
@@ -35,7 +35,6 @@ class SaleController extends Controller
         }
 
         $sales = $query->latest()->paginate(10)->withQueryString();
-        // dd($sales->toArray());
         return view('admin.sale.index', compact('sales'));
     }
 
@@ -45,6 +44,7 @@ class SaleController extends Controller
 
     public function create(SaleRequest $saleRequestFrom = null)
     {
+
         $saleRequests = SaleRequest::where('status', 'approved')->get();
 
         return view('admin.sale.create', [
@@ -52,22 +52,27 @@ class SaleController extends Controller
             'saleRequestFrom' => $saleRequestFrom,
         ]);
     }
+
     public function createFromRequest(SaleRequest $saleRequest)
     {
-        // This method simply calls the main create method, passing the specific request
         return $this->create($saleRequest);
     }
     /**
      * Store a newly created resource in storage.
-     */
+    */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'sale_request_id' => ['required', 'exists:sale_requests,id', Rule::unique('sales', 'sale_request_id')],
+            'sale_request_id' => ['required', 'exists:sale_requests,id'],
             'quantity' => 'required|numeric|min:0',
+            'rate' => 'required|numeric|min:0',
             'status' => 'required|in:pending,sold,cancelled',
+            'price' => 'required|numeric|min:0',
             'is_verified' => 'required|boolean',
             'display_status' => 'required|boolean',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
         ]);
 
         Sale::create($validatedData);
@@ -79,11 +84,6 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     $sale = Sale::with('saleRequest')->findOrFail($id);
-    //     return view('admin.sale.show', compact('sale'));
-    // }
     public function show(Sale $sale)
     {
         $sale->load('saleRequest');
@@ -103,14 +103,20 @@ class SaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sale $sale)
+    public function update(Request $request, $id)
     {
+        $sale = Sale::findOrFail($id);
         $validatedData = $request->validate([
-            'sale_request_id' => ['required', 'exists:sale_requests,id', Rule::unique('sales', 'sale_request_id')->ignore($sale->id)],
+            'sale_request_id' => 'required',
             'quantity' => 'required|numeric|min:0',
+            'rate' => 'required|numeric|min:0',
             'status' => 'required|in:pending,sold,cancelled',
+            'price' => 'required|numeric|min:0',
             'is_verified' => 'required|boolean',
             'display_status' => 'required|boolean',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
         ]);
 
         $sale->update($validatedData);

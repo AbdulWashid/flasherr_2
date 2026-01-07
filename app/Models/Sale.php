@@ -15,9 +15,14 @@ class Sale extends Model
     protected $fillable = [
         'sale_request_id',
         'quantity',
+        'rate',
         'status',
         'is_verified',
+        'price',
         'display_status',
+        'city',
+        'state',
+        'country',
     ];
     public function saleRequest(): BelongsTo
     {

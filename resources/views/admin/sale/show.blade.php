@@ -44,7 +44,15 @@
                                         </tr>
                                         <tr>
                                             <th>Quantity</th>
-                                            <td>{{ rtrim(rtrim(number_format($sale->quantity, 8), '0'), '.') }}</td>
+                                            <td>{{ number_format($sale->quantity, 2, '.', '') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rate</th>
+                                            <td>{{ number_format($sale->rate, 2, '.', '') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Price</th>
+                                            <td>{{ number_format($sale->price, 2, '.', '') }}</td>
                                         </tr>
                                         <tr>
                                             <th>Sale Status</th>

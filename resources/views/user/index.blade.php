@@ -465,18 +465,6 @@
                                         src="{{ asset('user/images/clients-logo/logo5.png') }}" alt=""></a>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="clients-logo wow fadeInUp" data-wow-delay="1.2s">
-                                <a href="javascript:void(0)"><img class="logo-main "
-                                        src="{{ asset('user/images/clients-logo/logo1.png') }}" alt=""></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="clients-logo wow fadeInUp" data-wow-delay="1.4s">
-                                <a href="javascript:void(0)"><img class="logo-main "
-                                        src="{{ asset('user/images/clients-logo/logo1.png') }}" alt=""></a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

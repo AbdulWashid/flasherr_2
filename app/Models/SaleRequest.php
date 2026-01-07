@@ -9,7 +9,20 @@ class SaleRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone_number', 'email', 'whatsapp_number', 'wallet_address', 'quantity', 'ip_address', 'documents_paths', 'status', 'is_read','rate'];
+    protected $fillable = [
+                    'name',
+                    'phone_number',
+                    'email',
+                    'whatsapp_number',
+                    'wallet_address',
+                    'quantity',
+                    'ip_address',
+                    'documents_paths',
+                    'status',
+                    'is_read',
+                    'rate',
+                    'min_quantity'
+                ];
 
      /**
      * The attributes that should be cast.

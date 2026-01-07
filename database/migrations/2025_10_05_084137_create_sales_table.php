@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sale_request_id')->constrained('sale_requests')->onDelete('cascade');
-            $table->decimal('quantity', 18, 8);
+            $table->decimal('quantity', 18, 2);
+            $table->decimal('rate', 18, 2);
             $table->enum('status',['pending','sold','cancelled'])->default('pending');
+            $table->decimal('price', 18, 2);
             $table->boolean('is_verified')->default(false);
             $table->boolean('display_status')->nullable()->default(true);
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }

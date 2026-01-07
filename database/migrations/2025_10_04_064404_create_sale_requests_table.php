@@ -17,9 +17,10 @@ return new class extends Migration {
             $table->string('phone_number');
             $table->string('whatsapp_number')->nullable();
             $table->string('wallet_address');
-            $table->decimal('quantity', 18, 8);
-            $table->decimal('rate', 18, 8);
+            $table->decimal('quantity', 18, 2);
+            $table->decimal('rate', 18, 2);
             $table->json('documents_paths')->nullable();
+            $table->decimal('min_quantity', 18, 2)->nullable();
             $table->string('status')->default('pending');
             $table->string('ip_address', 45)->nullable();
             $table->boolean('is_read')->nullable()->default(false);

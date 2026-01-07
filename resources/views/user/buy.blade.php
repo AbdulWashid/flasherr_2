@@ -37,9 +37,15 @@
                                     <img src="{{ asset('user/images/coins/coin3.png') }}" alt="USDT Coin">
                                 </div>
                                 <div class="icon-content">
-                                    <h4 class="title">Quantity: <span
+                                    <h4 class="title">Quantity:
+                                        <span
                                             class="text-primary">{{ rtrim(rtrim(number_format($sale->quantity, 8), '0'), '.') }}
-                                            USDT</span></h4>
+                                            USDT</span>
+                                    </h4>
+                                    <p class="font-16 m-b10">
+                                        Price to Unlock: <span class="text-success">{{ number_format($sale->price, 2) }}
+                                            INR</span>
+                                    </p>
                                     <p class="font-16 m-b10">
                                         Seller: {{ $sale->saleRequest->name }}
                                         @if ($sale->is_verified)
@@ -53,6 +59,13 @@
                                                 </svg>
                                             </span>
                                         @endif
+                                    </p>
+                                    <p class="font-16 m-b10">
+                                        Min sell Quantity:
+                                        <span
+                                            class="text-primary">{{ rtrim(rtrim(number_format($sale->saleRequest->min_quantity, 8), '0'), '.') }}
+                                            USDT
+                                        </span>
                                     </p>
                                     <p class="text-muted">Listed: {{ $sale->created_at->diffForHumans() }}</p>
                                     {{-- Link to a more detailed page for the sale --}}
@@ -91,6 +104,7 @@
         .icon-bx-wraper.style-1:hover {
             background: linear-gradient(180deg, #74b5db 0%, rgba(233, 247, 255, 0.1) 100%);
         }
+
         .main-bnr {
             background-repeat: no-repeat;
         }
@@ -113,6 +127,7 @@
                 height: 370px;
             }
         }
+
         @media only screen and (min-width: 1280px) {
             .main-bnr {
                 height: 370px;

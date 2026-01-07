@@ -134,7 +134,7 @@
                                             <label for="min_quantity" class="form-label">Min Quantity (USDT)</label>
                                             <input type="number" step="any" name="min_quantity" id="min_quantity"
                                                 class="form-control @error('min_quantity') is-invalid @enderror"
-                                                value="{{ old('min_quantity', $request->min_quantity ?? 10) }}">
+                                                value="{{ old('min_quantity', $request->min_quantity ?? 0) }}">
                                             @error('min_quantity')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -235,7 +235,7 @@
 
 @push('scripts')
     {{-- ADDED: SweetAlert2 CDN and custom script --}}
-    <script src="{{asset('vendor/sweetalert/sweetalert.all.js')}}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.delete-doc-btn').on('click', function(e) {

@@ -15,14 +15,10 @@ class BuyRequest extends Model
                         'wallet_address',
                         'quantity',
                         'status',
+                        'transaction_id',
+                        'payment_proof',
                         'email',
-                        'country',
-                        'city',
-                        'address',
                         'network_type',
-                        'document_path',
-                        'photo_path',
-                        'address_proof_path',
                     ];
 
     /**

@@ -81,9 +81,11 @@
                                         <li class="list-group-item py-3"><strong>Wallet Address :</strong>
                                             {{ $request->wallet_address }}</li>
                                         <li class="list-group-item py-3"><strong>Quantity:</strong>
-                                            {{ rtrim(rtrim(number_format($request->quantity, 8), '0'), '.') }} USDT</li>
+                                            {{ rtrim(rtrim(number_format($request->quantity, 2), '0'), '.') }} USDT</li>
                                         <li class="list-group-item py-3"><strong>Rate:</strong>
-                                            {{ rtrim(rtrim(number_format($request->rate, 8), '0'), '.') }}</li>
+                                            {{ rtrim(rtrim(number_format($request->rate, 2), '0'), '.') }}</li>
+                                        <li class="list-group-item py-3"><strong>Min Quantity:</strong>
+                                            {{ rtrim(rtrim(number_format($request->min_quantity, 2), '0'), '.') }}</li>
                                         <li class="list-group-item py-3"><strong>Status:</strong>
                                             @php
                                                 $borderColorClass = '';

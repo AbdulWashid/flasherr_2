@@ -81,7 +81,7 @@
                                                 </td>
                                                 <td>
                                                     @php
-                                                        $borderColorClass = 'border-warning'; // Default for pending
+                                                        $borderColorClass = 'border-warning';
                                                         if ($request->status == 'completed') {
                                                             $borderColorClass = 'border-success';
                                                         } elseif ($request->status == 'rejected') {

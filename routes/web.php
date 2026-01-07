@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 //admin Routes
-use App\Http\Controllers\Admin\{AuthController, DashboardController, ProfileController, SaleRequestController as AdminSaleRequestController, SaleController as AdminSaleController};
+use App\Http\Controllers\Admin\{AuthController, DashboardController, ProfileController, SaleRequestController as AdminSaleRequestController, SaleController as AdminSaleController,PaymentController};
 
 //user Routes
 use App\Http\Controllers\User\{HomeController, SaleController,BuyController,BuyRequestController};
@@ -36,6 +36,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth'], fu
     Route::put('buy-requests/{buyRequest}', [BuyRequestController::class, 'update'])->name('buy-requests.update');
 
     Route::resource('contact', ContactsController::class)->except(['store']);
+
+    Route::resource('payment', PaymentController::class);
 });
 
 // user routes

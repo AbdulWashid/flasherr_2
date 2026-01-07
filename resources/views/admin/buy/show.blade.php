@@ -36,26 +36,26 @@
 
                                 <dt class="col-sm-3">Phone</dt>
                                 <dd class="col-sm-9">{{ $buyRequest->phone_number }}</dd>
-
-                                <dt class="col-sm-3">Country</dt>
-                                <dd class="col-sm-9">{{ $buyRequest->country }}</dd>
-
-                                <dt class="col-sm-3">City</dt>
-                                <dd class="col-sm-9">{{ $buyRequest->city }}</dd>
-
-                                <dt class="col-sm-3">Address</dt>
-                                <dd class="col-sm-9">{{ $buyRequest->address }}</dd>
                             </dl>
                         </div>
                     </div>
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title mb-3"><i class="bi bi-file-earmark-text me-2"></i>Request Details</h5> <br>
+                            <h5 class="card-title mb-3"><i class="bi bi-file-earmark-text me-2"></i>Request Details</h5>
+                            <br>
                             <dl class="row">
+                                <dt class="col-sm-3">Transaction ID</dt>
+                                <dd class="col-sm-9">
+                                    {{ $buyRequest->transaction_id }}
+                                </dd>
                                 <dt class="col-sm-3">Requested Quantity</dt>
                                 <dd class="col-sm-9">
                                     {{ rtrim(rtrim(number_format($buyRequest->quantity, 8), '0'), '.') }} USDT
+                                </dd>
+                                <dt class="col-sm-3">Rate</dt>
+                                <dd class="col-sm-9">
+                                    <span class="text-success">{{ number_format($buyRequest->sale->rate, 2) }} INR</span>
                                 </dd>
 
                                 <dt class="col-sm-3">Network</dt>
@@ -117,44 +117,17 @@
                             </div>
 
                             <div class="mb-3">
-                                <strong>ID Document:</strong><br>
-                                @if ($buyRequest->document_path)
+                                <strong>Payment Proof:</strong><br>
+                                @if ($buyRequest->payment_proof)
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                         data-bs-target="#documentModal"
-                                        data-doc-url="{{ Storage::url($buyRequest->document_path) }}">
+                                        data-doc-url="{{ Storage::url($buyRequest->payment_proof) }}">
                                         <i class="bi bi-eye me-1"></i> View Document
                                     </button>
                                 @else
                                     <span class="text-muted">Not Provided</span>
                                 @endif
                             </div>
-
-                            <div class="mb-3">
-                                <strong>Photo (Selfie):</strong><br>
-                                @if ($buyRequest->photo_path)
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#documentModal"
-                                        data-doc-url="{{ Storage::url($buyRequest->photo_path) }}">
-                                        <i class="bi bi-eye me-1"></i> View Photo
-                                    </button>
-                                @else
-                                    <span class="text-muted">Not Provided</span>
-                                @endif
-                            </div>
-
-                            <div class="mb-3">
-                                <strong>Address Proof:</strong><br>
-                                @if ($buyRequest->address_proof_path)
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#documentModal"
-                                        data-doc-url="{{ Storage::url($buyRequest->address_proof_path) }}">
-                                        <i class="bi bi-eye me-1"></i> View Proof
-                                    </button>
-                                @else
-                                    <span class="text-muted">Not Provided</span>
-                                @endif
-                            </div>
-
                             <hr>
 
                             {{-- Admin Actions --}}

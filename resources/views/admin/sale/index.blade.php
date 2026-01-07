@@ -57,6 +57,7 @@
                                             <th>Name</th>
                                             <th>Wallet Address</th>
                                             <th>Quantity</th>
+                                            <th>Rate</th>
                                             <th>Sale Status</th>
                                             <th>Display Status</th>
                                             <th>Date</th>
@@ -75,6 +76,7 @@
                                                 </td>
                                                 <td>{{ Str::limit($request->saleRequest->wallet_address, 20) }}</td>
                                                 <td>{{ rtrim(rtrim(number_format($request->quantity, 8), '0'), '.') }}</td>
+                                                <td>{{ rtrim(rtrim(number_format($request->rate, 8), '0'), '.') }}</td>
 
                                                 <td>
                                                     @php

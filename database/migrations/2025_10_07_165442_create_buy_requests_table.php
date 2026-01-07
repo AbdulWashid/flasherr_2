@@ -16,15 +16,11 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email');
             $table->string('phone_number');
-            $table->string('country');
-            $table->string('city');
-            $table->text('address');
+            $table->string('payment_proof');
+            $table->string('transaction_id');
             $table->string('network_type'); // e.g., trc20, bep20
             $table->string('wallet_address');
             $table->decimal('quantity', 18, 8);
-            $table->string('document_path')->nullable();
-            $table->string('photo_path')->nullable();
-            $table->string('address_proof_path')->nullable();
             $table->string('status')->default('pending'); // You might want an enum here
             $table->boolean('is_read')->default(false);
             $table->timestamps();

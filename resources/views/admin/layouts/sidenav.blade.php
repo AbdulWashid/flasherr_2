@@ -51,6 +51,13 @@
                         <p>Contact Messages</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.payment.index')}}"
+                        class="nav-link {{ request()->routeIs('admin.payment.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-bank"></i>
+                        <p>Payment Details</p>
+                    </a>
+                </li>
 
             </ul>
         </nav>
